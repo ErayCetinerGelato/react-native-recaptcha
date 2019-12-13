@@ -16,7 +16,7 @@ const getInvisibleRecaptchaContent = (siteKey, action, onReady) => {
     'grecaptcha.ready(function() { ' +
         `(${String(onReady)})(); ` +
         'grecaptcha.execute(\'' + siteKey + '\', {action: \'' + action + '\'}).then( '+
-            'function (responseToken) { window.postMessage(responseToken);  } ' +
+            'function (responseToken) { window.ReactNativeWebView.postMessage(responseToken);  } ' +
         ' ); ' +
     '}); ' +
     '</script>' +
@@ -74,6 +74,8 @@ export default class ReCaptcha extends Component {
     };
 
     onShouldStartLoadWithRequest = (event) => {
+        return true;
+        
         const {config, url} = this.props;
         if (event.url === url || event.url.indexOf(RECAPTCHA_SUB_STR) !== -1 || (!!config && event.url.indexOf(config.authDomain) !== -1) || event.url.indexOf(RECAPTCHA_SUB_STR_FRAME) !== -1) {
             return true;
